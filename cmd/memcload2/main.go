@@ -13,7 +13,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&pattern, "pattern", "data/appsinstalled/*.tsv.gz", "path to data dir (template file name)")
+	flag.StringVar(&pattern, "pattern", "data/appinstalled/*.tsv.gz", "path to data files with regex match, '[~/]path/to/data/appinstalled/*.tsv.gz'")
 	flag.StringVar(&idfa, "idfa", "127.0.0.1:33013", "idfa memcache server")
 	flag.StringVar(&gaid, "gaid", "127.0.0.1:33014", "gaid memcache server")
 	flag.StringVar(&adid, "adid", "127.0.0.1:33015", "adid memcache server")

@@ -6,7 +6,9 @@ import (
 	"compress/gzip"
 	"log"
 	"os"
+	"os/user"
 	"path/filepath"
+	"strings"
 )
 
 // dotRename rename file to dotted filename
@@ -61,4 +63,23 @@ func readGzipFile(fpList []string, readCh chan []byte) {
 			dotRename(fname)
 		}
 	}
+}
+
+// cleanPath приводит относительные пути к полному (относительно текущей директории)
+func cleanPath(path string) (string, error) {
+	currentUser, _ := user.Current()
+	homeDir := currentUser.HomeDir
+
+	if path == "~" {
+		path = homeDir
+	} else if strings.HasPrefix(path, "~/") {
+		path = filepath.Join(homeDir, path[2:])
+	} else if !filepath.IsAbs(path) {
+		currDir, err := os.Getwd()
+		if err != nil {
+			return "", err
+		}
+		path = filepath.Join(currDir, path)
+	}
+	return path, nil
 }

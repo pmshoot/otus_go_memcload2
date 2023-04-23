@@ -49,9 +49,14 @@ func process() {
 		"dvid": {Address: &dvid, Client: memcache.New(dvid)},
 	}
 
-	flist, _ := filepath.Glob(pattern)
+	fpath, err := cleanPath(pattern)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	flist, _ := filepath.Glob(fpath)
 	if len(flist) == 0 {
-		log.Fatalln("Не найдены подходящие файлы")
+		log.Fatalf("Не найдены подходящие файлы:'%s'\n", fpath)
 	}
 
 	readGzipDataCh := make(chan []byte)
@@ -157,7 +162,7 @@ func parseAppInstalled(row string) (*appInstalled, error) {
 // insertAppinstalled отправляет данные в memcache
 func insertAppinstalled(memc *memClient, key *string, message []byte) error {
 	if dry {
-		log.Printf("%v --> %s:%v\n", *memc.Address, *key, message) // проверка формируемых данных
+		log.Printf("%s --> %s:%v\n", *memc.Address, *key, message) // проверка формируемых данных
 	} else {
 		if err := memc.Client.Set(&memcache.Item{Key: *key, Value: message}); err != nil {
 			return err
