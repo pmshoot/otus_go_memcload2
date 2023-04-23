@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	pb "github/pmshoot/otus_go_memcload2/internal/pkg/memcload2pb"
 	"log"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	pb "github.com/pmshoot/otus_go_memcload2/internal/pkg/memcload2pb"
 
 	"github.com/bradfitz/gomemcache/memcache"
 	"google.golang.org/protobuf/proto"
