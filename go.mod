@@ -1,4 +1,4 @@
-module github/pmshoot/otus_go_memcload2
+module github.com/pmshoot/otus_go_memcload2
 
 go 1.20
 
